@@ -1,0 +1,16 @@
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import 'katex/dist/katex.min.css'
+import './styles.css'
+import './lesson.css'
+import './practice.css'
+import './riemann.css'
+import './review.css'
+import './exam.css'
+import './dashboard.css'
+import './application-labs.css'
+import './challenges.css'
+import './accessibility.css'
+import App from './App'
+
+createRoot(document.getElementById('root')!).render(<StrictMode><App /></StrictMode>)

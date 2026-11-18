@@ -1,0 +1,23 @@
+import type { Exercise } from '../types/content'
+
+const numeric = (id: string, topic: string, prompt: string, answer: number, solution: string[], difficulty: 2 | 3 = 2, tolerance = 1e-9): Exercise => ({ id, moduleId: 'improprias', topic, prerequisites: ['integral-definida', 'tecnicas'], difficulty, format: 'numeric', prompt, expectedAnswer: answer, tolerance, solution, hints: ['Substitua a extremidade problemática por um parâmetro finito.', 'Calcule o limite somente depois de avaliar a integral própria.'], commonErrors: ['Substituir ∞ como se fosse um número.', 'Omitir o limite que define a integral imprópria.'], suggestedMinutes: difficulty + 2, tags: ['integrais impróprias', topic], explanation: solution.at(-1) ?? '' })
+const choice = (id: string, topic: string, prompt: string, expected: string, choices: { id: string; label: string }[], explanation: string, difficulty: 2 | 3 = 2): Exercise => ({ id, moduleId: 'improprias', topic, prerequisites: ['integral-definida'], difficulty, format: 'multiple-choice', prompt, expectedAnswer: expected, choices, solution: [explanation], hints: ['Localize a extremidade ou ponto problemático.', 'Use o critério de convergência pertinente.'], commonErrors: ['Confundir integrando tendendo a zero com integral convergente.'], suggestedMinutes: difficulty + 2, tags: ['integrais impróprias', topic], explanation })
+
+export const improperExercises: Exercise[] = [
+  numeric('imp-01-p2', 'intervalo infinito', 'Calcule ∫₁^∞ 1/x² dx.', 1, ['Defina lim b→∞ ∫₁ᵇx⁻²dx.', 'Primitiva: −1/x.', 'lim b→∞(−1/b+1)=1.']),
+  numeric('imp-01-exp', 'intervalo infinito', 'Calcule ∫₀^∞ exp(−x) dx.', 1, ['Defina lim b→∞∫₀ᵇexp(−x)dx.', 'Primitiva: −exp(−x).', 'O limite é 0−(−1)=1.']),
+  choice('imp-01-harmonica', 'intervalo infinito', 'A integral ∫₁^∞1/x dx:', 'b', [{ id: 'a', label: 'Converge para 1' }, { id: 'b', label: 'Diverge' }, { id: 'c', label: 'Converge para 0' }], 'lim b→∞ ln(b)=∞, portanto a integral diverge.'),
+  choice('imp-01-definicao', 'intervalo infinito', 'Qual definição representa ∫ₐ^∞f(x)dx?', 'a', [{ id: 'a', label: 'lim b→∞ ∫ₐᵇf(x)dx' }, { id: 'b', label: '∫ₐᵇf(x)dx com b=∞' }, { id: 'c', label: 'lim x→a f(x)' }], 'Infinito não é um limite numérico de integração; a integral é definida por um limite.'),
+
+  numeric('imp-02-raiz', 'integrando ilimitado', 'Calcule ∫₀¹1/√x dx.', 2, ['Defina lim a→0⁺∫ₐ¹x⁻¹/²dx.', 'Primitiva: 2√x.', 'lim a→0⁺(2−2√a)=2.']),
+  numeric('imp-02-log', 'integrando ilimitado', 'Calcule ∫₀¹ln(x)dx.', -1, ['Use lim a→0⁺[xln(x)−x]ₐ¹.', 'O limite a ln(a) é 0.', 'Resultado: −1.']),
+  choice('imp-02-x2', 'integrando ilimitado', 'A integral ∫₋₁¹1/x² dx:', 'c', [{ id: 'a', label: 'Vale −2' }, { id: 'b', label: 'Vale 0 por simetria' }, { id: 'c', label: 'Diverge' }], 'É preciso separar em 0; cada lado diverge positivamente.'),
+  choice('imp-02-dividir', 'integrando ilimitado', 'Se f é ilimitada em c dentro de [a,b], o procedimento correto é:', 'b', [{ id: 'a', label: 'Ignorar o ponto c' }, { id: 'b', label: 'Separar em ∫ₐᶜ e ∫ᶜᵇ e exigir ambas convergentes' }, { id: 'c', label: 'Somar os limites laterais antes de integrar' }], 'Uma descontinuidade interna cria duas integrais impróprias independentes.'),
+
+  choice('imp-03-p', 'teste p', 'Para qual condição ∫₁^∞1/xᵖ dx converge?', 'a', [{ id: 'a', label: 'p>1' }, { id: 'b', label: 'p≥0' }, { id: 'c', label: 'p<1' }], 'A p-integral no infinito converge exatamente quando p>1.'),
+  choice('imp-03-pzero', 'teste p', 'Para qual condição ∫₀¹1/xᵖ dx converge?', 'b', [{ id: 'a', label: 'p>1' }, { id: 'b', label: 'p<1' }, { id: 'c', label: 'Somente p=1' }], 'Perto de zero, a p-integral converge exatamente quando p<1.'),
+  choice('imp-03-comparacao', 'comparação', 'Se 0≤f(x)≤g(x) e ∫g converge, então:', 'c', [{ id: 'a', label: 'Nada pode ser concluído' }, { id: 'b', label: '∫f diverge' }, { id: 'c', label: '∫f converge' }], 'Uma função não negativa menor que uma majorante integrável também tem integral convergente.'),
+  choice('imp-03-decair', 'comparação', 'O fato de f(x)→0 quando x→∞ garante que ∫₁^∞f(x)dx converge?', 'b', [{ id: 'a', label: 'Sim, sempre' }, { id: 'b', label: 'Não; 1/x é um contraexemplo' }, { id: 'c', label: 'Só se f for contínua' }], 'Tender a zero é necessário em muitos casos positivos, mas não suficiente; ∫₁^∞1/x diverge.'),
+]
+
+export const improperExerciseById = Object.fromEntries(improperExercises.map((item) => [item.id, item]))

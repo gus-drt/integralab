@@ -1,0 +1,49 @@
+import type { Exercise } from '../types/content'
+
+const expr = (id: string, topic: string, prompt: string, expected: string, solution: string[], difficulty: 2 | 3 | 4 = 2): Exercise => ({ id, moduleId: 'tecnicas', topic, prerequisites: ['primitivas'], difficulty, format: 'expression', prompt, expectedAnswer: expected, equivalenceMode: 'up-to-constant', solution, hints: ['Identifique a estrutura interna e derive sua resposta.', 'Verifique se todos os fatores e sinais reaparecem.'], commonErrors: ['Escolher uma técnica pelo símbolo, sem conferir a estrutura.', 'Perder um fator constante ou sinal.'], suggestedMinutes: difficulty + 1, tags: ['técnicas', topic], explanation: 'A derivada da resposta recupera o integrando no domínio verificado.' })
+const num = (id: string, topic: string, prompt: string, answer: number, solution: string[], difficulty: 2 | 3 = 2, tolerance = 1e-9): Exercise => ({ id, moduleId: 'tecnicas', topic, prerequisites: ['integral-definida'], difficulty, format: 'numeric', prompt, expectedAnswer: answer, tolerance, solution, hints: ['Escolha a mudança de variável e transforme também os limites.', 'Calcule na nova variável antes de voltar, se necessário.'], commonErrors: ['Esquecer de trocar os limites.', 'Omitir o diferencial.'], suggestedMinutes: difficulty + 1, tags: ['técnicas', topic], explanation: solution.at(-1) ?? '' })
+const choice = (id: string, topic: string, prompt: string, expected: string, choices: { id: string; label: string }[], explanation: string, difficulty: 1 | 2 | 3 = 2): Exercise => ({ id, moduleId: 'tecnicas', topic, prerequisites: ['primitivas'], difficulty, format: 'multiple-choice', prompt, expectedAnswer: expected, choices, solution: [explanation], hints: ['Procure a composição ou produto dominante.', 'Confira qual escolha simplifica o integrando.'], commonErrors: ['Aplicar uma receita sem verificar os pré-requisitos.'], suggestedMinutes: difficulty + 1, tags: ['técnicas', topic], explanation })
+
+export const techniqueExercises: Exercise[] = [
+  choice('tec-01-u', 'escolha de técnica', 'Em ∫2x(x²+1)⁵dx, qual técnica é mais direta?', 'a', [{ id: 'a', label: 'Substituição u=x²+1' }, { id: 'b', label: 'Integração por partes' }, { id: 'c', label: 'Frações parciais' }], 'A derivada de x²+1 aparece como o fator 2x.'),
+  choice('tec-01-partes', 'escolha de técnica', 'Em ∫x exp(x)dx, qual técnica é natural?', 'b', [{ id: 'a', label: 'Substituição trigonométrica' }, { id: 'b', label: 'Integração por partes' }, { id: 'c', label: 'Frações parciais' }], 'É um produto em que derivar x simplifica um fator.'),
+  choice('tec-01-fracoes', 'escolha de técnica', 'Em ∫1/(x²−1)dx, qual técnica deve ser considerada?', 'c', [{ id: 'a', label: 'Regra da potência direta' }, { id: 'b', label: 'Partes' }, { id: 'c', label: 'Frações parciais' }], 'O integrando é racional e o denominador fatoriza.'),
+  choice('tec-01-verificar', 'escolha de técnica', 'Qual prática continua útil depois de qualquer técnica?', 'a', [{ id: 'a', label: 'Derivar a resposta' }, { id: 'b', label: 'Apagar a constante C' }, { id: 'c', label: 'Trocar x por zero apenas' }], 'Derivar verifica coeficientes, sinais e composição.'),
+
+  expr('tec-02-potencia', 'substituição', 'Calcule ∫2x(x²+1)³dx.', '(x^2+1)^4/4+C', ['Use u=x²+1 e du=2x dx.', '∫u³du=u⁴/4.', 'Volte para x.']),
+  expr('tec-02-exp', 'substituição', 'Calcule ∫3x² exp(x³)dx.', 'exp(x^3)+C', ['Use u=x³ e du=3x²dx.', '∫exp(u)du=exp(u)+C.']),
+  expr('tec-02-trig', 'substituição', 'Calcule ∫cos(x) exp(sin(x))dx.', 'exp(sin(x))+C', ['Use u=sin(x), du=cos(x)dx.', 'A primitiva é exp(u)+C.'], 3),
+  expr('tec-02-log', 'substituição', 'Calcule ∫[2x/(x²+1)]dx.', 'ln(x^2+1)+C', ['Use u=x²+1.', 'du=2x dx e ∫du/u=ln(u)+C.'], 3),
+
+  num('tec-03-def1', 'substituição definida', 'Calcule ∫₀¹2x(x²+1)dx.', 1.5, ['u=x²+1; novos limites: 1 e 2.', '∫₁²u du=[u²/2]₁²=3/2.']),
+  num('tec-03-exp', 'substituição definida', 'Calcule ∫₀^(ln 2) exp(x)dx.', 1, ['Primitiva: exp(x).', 'exp(ln2)−exp(0)=2−1=1.']),
+  num('tec-03-pol', 'substituição definida', 'Calcule ∫₀¹3x²dx.', 1, ['u=x³ ou use primitiva direta.', '[x³]₀¹=1.']),
+  choice('tec-03-limites', 'substituição definida', 'Ao mudar de x para u numa integral definida, o que fazer?', 'b', [{ id: 'a', label: 'Manter sempre os limites em x' }, { id: 'b', label: 'Transformar os limites ou voltar para x antes de avaliar' }, { id: 'c', label: 'Adicionar C' }], 'Limites e variável precisam ser consistentes; integrais definidas não recebem +C.'),
+
+  choice('tec-04-formula', 'por partes', 'Qual é a fórmula de integração por partes?', 'a', [{ id: 'a', label: '∫u dv = uv − ∫v du' }, { id: 'b', label: '∫u dv = uv + ∫v du' }, { id: 'c', label: '∫u dv = du/v' }], 'A fórmula vem da regra do produto: d(uv)=u dv+v du.'),
+  expr('tec-04-xexp', 'por partes', 'Calcule ∫x exp(x)dx.', 'x*exp(x)-exp(x)+C', ['Escolha u=x e dv=exp(x)dx.', 'du=dx e v=exp(x).', 'uv−∫vdu=x exp(x)−exp(x)+C.'], 3),
+  expr('tec-04-xsin', 'por partes', 'Calcule ∫x sin(x)dx.', '-x*cos(x)+sin(x)+C', ['u=x; dv=sin(x)dx.', 'du=dx; v=−cos(x).', 'Resultado: −x cos(x)+sin(x)+C.'], 3),
+  expr('tec-04-lnx', 'por partes', 'Calcule ∫ln(x)dx, para x>0.', 'x*ln(x)-x+C', ['Escreva ln(x)·1.', 'u=ln(x), dv=dx.', 'Resultado: x ln(x)−x+C.'], 3),
+
+  expr('tec-05-sin', 'trigonométricas', 'Calcule ∫sin(x)dx.', '-cos(x)+C', ['A derivada de −cos(x) é sin(x).']),
+  expr('tec-05-cos', 'trigonométricas', 'Calcule ∫cos(x)dx.', 'sin(x)+C', ['A derivada de sin(x) é cos(x).']),
+  expr('tec-05-sec2', 'trigonométricas', 'Calcule ∫sec(x)²dx.', 'tan(x)+C', ['A derivada de tan(x) é sec²(x).']),
+  expr('tec-05-produto', 'trigonométricas', 'Calcule ∫sin(x)cos(x)dx.', 'sin(x)^2/2+C', ['Use u=sin(x), du=cos(x)dx.', 'Resultado: u²/2+C.'], 3),
+
+  choice('tec-06-circulo', 'substituição trigonométrica', 'Para √(a²−x²), qual substituição é padrão?', 'a', [{ id: 'a', label: 'x=a sin(θ)' }, { id: 'b', label: 'x=a tan(θ)' }, { id: 'c', label: 'x=a sec(θ)' }], 'x=a sinθ usa 1−sin²θ=cos²θ.'),
+  choice('tec-06-soma', 'substituição trigonométrica', 'Para √(a²+x²), qual substituição é padrão?', 'b', [{ id: 'a', label: 'x=a sin(θ)' }, { id: 'b', label: 'x=a tan(θ)' }, { id: 'c', label: 'x=a cos(θ)' }], 'x=a tanθ usa 1+tan²θ=sec²θ.'),
+  choice('tec-06-diferenca', 'substituição trigonométrica', 'Para √(x²−a²), qual substituição é padrão?', 'c', [{ id: 'a', label: 'x=a sin(θ)' }, { id: 'b', label: 'x=a tan(θ)' }, { id: 'c', label: 'x=a sec(θ)' }], 'x=a secθ usa sec²θ−1=tan²θ.'),
+  choice('tec-06-exemplo', 'substituição trigonométrica', 'Uma primitiva de 1/√(9−x²) é:', 'a', [{ id: 'a', label: 'arcsin(x/3)+C' }, { id: 'b', label: 'ln(x²+9)+C' }, { id: 'c', label: '√(9−x²)+C' }], 'A fórmula ∫dx/√(a²−x²)=arcsin(x/a)+C dá arcsin(x/3)+C.', 3),
+
+  choice('tec-07-decomp1', 'frações parciais', 'Decomponha 1/[x(x+1)].', 'a', [{ id: 'a', label: '1/x − 1/(x+1)' }, { id: 'b', label: '1/x + 1/(x+1)' }, { id: 'c', label: 'x + 1/x' }], '1/x−1/(x+1)=[(x+1)−x]/[x(x+1)].'),
+  expr('tec-07-int1', 'frações parciais', 'Calcule ∫1/[x(x+1)]dx no domínio x>0.', 'ln(x)-ln(x+1)+C', ['Decomponha em 1/x−1/(x+1).', 'Integre cada termo logarítmico.'], 3),
+  choice('tec-07-decomp2', 'frações parciais', 'Decomponha (3x+5)/[(x+1)(x+2)].', 'b', [{ id: 'a', label: '1/(x+1)+2/(x+2)' }, { id: 'b', label: '2/(x+1)+1/(x+2)' }, { id: 'c', label: '3/(x+1)+5/(x+2)' }], '2(x+2)+(x+1)=3x+5.'),
+  expr('tec-07-int2', 'frações parciais', 'Integre 2/(x+1)+1/(x+2), para x>−1.', '2*ln(x+1)+ln(x+2)+C', ['Integre cada fração.', 'Resultado: 2ln(x+1)+ln(x+2)+C.'], 3),
+
+  choice('tec-08-estrategia1', 'estratégia', 'Em ∫x/(x²+4)dx, qual tentativa vem primeiro?', 'a', [{ id: 'a', label: 'u=x²+4' }, { id: 'b', label: 'Partes com u=x' }, { id: 'c', label: 'Substituição trigonométrica obrigatória' }], 'A derivada do denominador aparece no numerador.'),
+  choice('tec-08-estrategia2', 'estratégia', 'Em ∫x²exp(x)dx, o que é provável?', 'b', [{ id: 'a', label: 'Uma substituição simples encerra tudo' }, { id: 'b', label: 'Integração por partes repetida' }, { id: 'c', label: 'Frações parciais' }], 'Derivar o polinômio repetidamente reduz seu grau.'),
+  choice('tec-08-estrategia3', 'estratégia', 'Antes de escolher a técnica, qual ação ajuda?', 'c', [{ id: 'a', label: 'Aumentar os números' }, { id: 'b', label: 'Adicionar limites' }, { id: 'c', label: 'Simplificar e reconhecer a estrutura' }], 'Reescrever potências, fatorar e identificar composições pode revelar uma regra direta.'),
+  choice('tec-08-honestidade', 'estratégia', 'Se o avaliador simbólico não suporta uma forma correta, o sistema deve:', 'b', [{ id: 'a', label: 'Marcá-la errada sem explicar' }, { id: 'b', label: 'Informar a limitação e oferecer verificação guiada' }, { id: 'c', label: 'Executar a entrada como código' }], 'A limitação deve ser transparente; código do usuário nunca deve ser executado.'),
+]
+
+export const techniqueExerciseById = Object.fromEntries(techniqueExercises.map((item) => [item.id, item]))

@@ -1,0 +1,18 @@
+:root {
+  --teal: #167f77;
+  --muted: #566b7c;
+}
+
+.next-step .primary-button {
+  background: white;
+  color: var(--navy);
+}
+
+.module-index {
+  color: var(--muted);
+}
+
+.module-card h2 {
+  margin: 18px 0 6px;
+  font-size: 1.35rem;
+}
