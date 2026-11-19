@@ -10,25 +10,25 @@ export const techniqueExercises: Exercise[] = [
   choice('tec-01-fracoes', 'escolha de técnica', 'Em ∫1/(x²−1)dx, qual técnica deve ser considerada?', 'c', [{ id: 'a', label: 'Regra da potência direta' }, { id: 'b', label: 'Partes' }, { id: 'c', label: 'Frações parciais' }], 'O integrando é racional e o denominador fatoriza.'),
   choice('tec-01-verificar', 'escolha de técnica', 'Qual prática continua útil depois de qualquer técnica?', 'a', [{ id: 'a', label: 'Derivar a resposta' }, { id: 'b', label: 'Apagar a constante C' }, { id: 'c', label: 'Trocar x por zero apenas' }], 'Derivar verifica coeficientes, sinais e composição.'),
 
-  expr('tec-02-potencia', 'substituição', 'Calcule ∫2x(x²+1)³dx.', '(x^2+1)^4/4+C', ['Use u=x²+1 e du=2x dx.', '∫u³du=u⁴/4.', 'Volte para x.']),
-  expr('tec-02-exp', 'substituição', 'Calcule ∫3x² exp(x³)dx.', 'exp(x^3)+C', ['Use u=x³ e du=3x²dx.', '∫exp(u)du=exp(u)+C.']),
-  expr('tec-02-trig', 'substituição', 'Calcule ∫cos(x) exp(sin(x))dx.', 'exp(sin(x))+C', ['Use u=sin(x), du=cos(x)dx.', 'A primitiva é exp(u)+C.'], 3),
-  expr('tec-02-log', 'substituição', 'Calcule ∫[2x/(x²+1)]dx.', 'ln(x^2+1)+C', ['Use u=x²+1.', 'du=2x dx e ∫du/u=ln(u)+C.'], 3),
+  expr('tec-02-potencia', 'substituição', 'Calcule ∫2x(x²+1)³dx.', '(x^2+1)^4/4+C', ["Escolha u=x²+1. Derivando, du=2x dx.", "Troque (x²+1)³ por u³ e 2x dx por du: resta ∫u³du.", "Aumente o expoente 3 para 4 e divida por 4: u⁴/4+C.", "Substitua u pela expressão original: (x²+1)⁴/4+C."]),
+  expr('tec-02-exp', 'substituição', 'Calcule ∫3x² exp(x³)dx.', 'exp(x^3)+C', ["Escolha u=x³; derivando, du=3x²dx.", "Troque x³ por u e o bloco 3x²dx por du: ∫exp(u)du.", "A primitiva de exp(u) é exp(u)+C.", "Volte para x: exp(x³)+C."]),
+  expr('tec-02-trig', 'substituição', 'Calcule ∫cos(x) exp(sin(x))dx.', 'exp(sin(x))+C', ["Escolha u=sin(x); sua derivada é cos(x), então du=cos(x)dx.", "Troque sin(x) por u e cos(x)dx por du: ∫exp(u)du.", "Integre: exp(u)+C.", "Volte para x: exp(sin(x))+C."], 3),
+  expr('tec-02-log', 'substituição', 'Calcule ∫[2x/(x²+1)]dx.', 'ln(x^2+1)+C', ["Escolha u=x²+1 e derive: du=2x dx.", "Troque o denominador por u e o numerador com dx por du: ∫du/u.", "Uma primitiva de 1/u é ln|u|.", "Como x²+1>0, volte para x sem módulo: ln(x²+1)+C."], 3),
 
-  num('tec-03-def1', 'substituição definida', 'Calcule ∫₀¹2x(x²+1)dx.', 1.5, ['u=x²+1; novos limites: 1 e 2.', '∫₁²u du=[u²/2]₁²=3/2.']),
+  num('tec-03-def1', 'substituição definida', 'Calcule ∫₀¹2x(x²+1)dx.', 1.5, ["Escolha u=x²+1; du=2x dx.", "Para x=0, u=0²+1=1. Para x=1, u=1²+1=2.", "A integral se torna ∫₁²u du, cuja primitiva é u²/2.", "Avalie: 2²/2−1²/2=4/2−1/2=3/2=1,5."]),
   num('tec-03-exp', 'substituição definida', 'Calcule ∫₀^(ln 2) exp(x)dx.', 1, ['Primitiva: exp(x).', 'exp(ln2)−exp(0)=2−1=1.']),
   num('tec-03-pol', 'substituição definida', 'Calcule ∫₀¹3x²dx.', 1, ['u=x³ ou use primitiva direta.', '[x³]₀¹=1.']),
   choice('tec-03-limites', 'substituição definida', 'Ao mudar de x para u numa integral definida, o que fazer?', 'b', [{ id: 'a', label: 'Manter sempre os limites em x' }, { id: 'b', label: 'Transformar os limites ou voltar para x antes de avaliar' }, { id: 'c', label: 'Adicionar C' }], 'Limites e variável precisam ser consistentes; integrais definidas não recebem +C.'),
 
   choice('tec-04-formula', 'por partes', 'Qual é a fórmula de integração por partes?', 'a', [{ id: 'a', label: '∫u dv = uv − ∫v du' }, { id: 'b', label: '∫u dv = uv + ∫v du' }, { id: 'c', label: '∫u dv = du/v' }], 'A fórmula vem da regra do produto: d(uv)=u dv+v du.'),
   expr('tec-04-xexp', 'por partes', 'Calcule ∫x exp(x)dx.', 'x*exp(x)-exp(x)+C', ['Escolha u=x e dv=exp(x)dx.', 'du=dx e v=exp(x).', 'uv−∫vdu=x exp(x)−exp(x)+C.'], 3),
-  expr('tec-04-xsin', 'por partes', 'Calcule ∫x sin(x)dx.', '-x*cos(x)+sin(x)+C', ['u=x; dv=sin(x)dx.', 'du=dx; v=−cos(x).', 'Resultado: −x cos(x)+sin(x)+C.'], 3),
-  expr('tec-04-lnx', 'por partes', 'Calcule ∫ln(x)dx, para x>0.', 'x*ln(x)-x+C', ['Escreva ln(x)·1.', 'u=ln(x), dv=dx.', 'Resultado: x ln(x)−x+C.'], 3),
+  expr('tec-04-xsin', 'por partes', 'Calcule ∫x sin(x)dx.', '-x*cos(x)+sin(x)+C', ["Escolha u=x e dv=sin(x)dx.", "Derivando u, du=dx; integrando dv, v=−cos(x).", "Substitua em uv−∫v du: −x cos(x)−∫(−cos(x))dx.", "Os sinais negativos dão +∫cos(x)dx=+sin(x).", "Resultado: −x cos(x)+sin(x)+C."], 3),
+  expr('tec-04-lnx', 'por partes', 'Calcule ∫ln(x)dx, para x>0.', 'x*ln(x)-x+C', ["Escreva ln(x) como ln(x)·1 e escolha u=ln(x), dv=dx.", "Derive u: du=dx/x. Integre dv: v=x.", "Aplique uv−∫v du: x ln(x)−∫x·(1/x)dx.", "Como x>0, x·(1/x)=1. Resta x ln(x)−∫1dx.", "Resultado: x ln(x)−x+C."], 3),
 
   expr('tec-05-sin', 'trigonométricas', 'Calcule ∫sin(x)dx.', '-cos(x)+C', ['A derivada de −cos(x) é sin(x).']),
   expr('tec-05-cos', 'trigonométricas', 'Calcule ∫cos(x)dx.', 'sin(x)+C', ['A derivada de sin(x) é cos(x).']),
   expr('tec-05-sec2', 'trigonométricas', 'Calcule ∫sec(x)²dx.', 'tan(x)+C', ['A derivada de tan(x) é sec²(x).']),
-  expr('tec-05-produto', 'trigonométricas', 'Calcule ∫sin(x)cos(x)dx.', 'sin(x)^2/2+C', ['Use u=sin(x), du=cos(x)dx.', 'Resultado: u²/2+C.'], 3),
+  expr('tec-05-produto', 'trigonométricas', 'Calcule ∫sin(x)cos(x)dx.', 'sin(x)^2/2+C', ["Escolha u=sin(x) e derive: du=cos(x)dx.", "Troque os dois blocos: ∫sin(x)cos(x)dx=∫u du.", "Pela regra da potência, ∫u du=u²/2+C.", "Volte para x: sin²(x)/2+C."], 3),
 
   choice('tec-06-circulo', 'substituição trigonométrica', 'Para √(a²−x²), qual substituição é padrão?', 'a', [{ id: 'a', label: 'x=a sin(θ)' }, { id: 'b', label: 'x=a tan(θ)' }, { id: 'c', label: 'x=a sec(θ)' }], 'x=a sinθ usa 1−sin²θ=cos²θ.'),
   choice('tec-06-soma', 'substituição trigonométrica', 'Para √(a²+x²), qual substituição é padrão?', 'b', [{ id: 'a', label: 'x=a sin(θ)' }, { id: 'b', label: 'x=a tan(θ)' }, { id: 'c', label: 'x=a cos(θ)' }], 'x=a tanθ usa 1+tan²θ=sec²θ.'),
@@ -36,9 +36,9 @@ export const techniqueExercises: Exercise[] = [
   choice('tec-06-exemplo', 'substituição trigonométrica', 'Uma primitiva de 1/√(9−x²) é:', 'a', [{ id: 'a', label: 'arcsin(x/3)+C' }, { id: 'b', label: 'ln(x²+9)+C' }, { id: 'c', label: '√(9−x²)+C' }], 'A fórmula ∫dx/√(a²−x²)=arcsin(x/a)+C dá arcsin(x/3)+C.', 3),
 
   choice('tec-07-decomp1', 'frações parciais', 'Decomponha 1/[x(x+1)].', 'a', [{ id: 'a', label: '1/x − 1/(x+1)' }, { id: 'b', label: '1/x + 1/(x+1)' }, { id: 'c', label: 'x + 1/x' }], '1/x−1/(x+1)=[(x+1)−x]/[x(x+1)].'),
-  expr('tec-07-int1', 'frações parciais', 'Calcule ∫1/[x(x+1)]dx no domínio x>0.', 'ln(x)-ln(x+1)+C', ['Decomponha em 1/x−1/(x+1).', 'Integre cada termo logarítmico.'], 3),
+  expr('tec-07-int1', 'frações parciais', 'Calcule ∫1/[x(x+1)]dx no domínio x>0.', 'ln(x)-ln(x+1)+C', ["Monte 1/[x(x+1)]=A/x+B/(x+1).", "Multiplique por x(x+1): 1=A(x+1)+Bx=(A+B)x+A.", "Comparando os termos: A=1 e A+B=0, então B=−1.", "A integral vira ∫1/x dx−∫1/(x+1)dx.", "Como x>0, ambos os argumentos são positivos. A resposta é ln(x)−ln(x+1)+C."], 3),
   choice('tec-07-decomp2', 'frações parciais', 'Decomponha (3x+5)/[(x+1)(x+2)].', 'b', [{ id: 'a', label: '1/(x+1)+2/(x+2)' }, { id: 'b', label: '2/(x+1)+1/(x+2)' }, { id: 'c', label: '3/(x+1)+5/(x+2)' }], '2(x+2)+(x+1)=3x+5.'),
-  expr('tec-07-int2', 'frações parciais', 'Integre 2/(x+1)+1/(x+2), para x>−1.', '2*ln(x+1)+ln(x+2)+C', ['Integre cada fração.', 'Resultado: 2ln(x+1)+ln(x+2)+C.'], 3),
+  expr('tec-07-int2', 'frações parciais', 'Integre 2/(x+1)+1/(x+2), para x>−1.', '2*ln(x+1)+ln(x+2)+C', ["Separe: 2∫1/(x+1)dx+∫1/(x+2)dx.", "No primeiro termo, u=x+1 e du=dx; ele produz 2ln|x+1|.", "No segundo, v=x+2 e dv=dx; ele produz ln|x+2|.", "Como x>−1, x+1 e x+2 são positivos. Resultado: 2ln(x+1)+ln(x+2)+C."], 3),
 
   choice('tec-08-estrategia1', 'estratégia', 'Em ∫x/(x²+4)dx, qual tentativa vem primeiro?', 'a', [{ id: 'a', label: 'u=x²+4' }, { id: 'b', label: 'Partes com u=x' }, { id: 'c', label: 'Substituição trigonométrica obrigatória' }], 'A derivada do denominador aparece no numerador.'),
   choice('tec-08-estrategia2', 'estratégia', 'Em ∫x²exp(x)dx, o que é provável?', 'b', [{ id: 'a', label: 'Uma substituição simples encerra tudo' }, { id: 'b', label: 'Integração por partes repetida' }, { id: 'c', label: 'Frações parciais' }], 'Derivar o polinômio repetidamente reduz seu grau.'),

@@ -10,7 +10,7 @@ export const improperExercises: Exercise[] = [
   choice('imp-01-definicao', 'intervalo infinito', 'Qual definição representa ∫ₐ^∞f(x)dx?', 'a', [{ id: 'a', label: 'lim b→∞ ∫ₐᵇf(x)dx' }, { id: 'b', label: '∫ₐᵇf(x)dx com b=∞' }, { id: 'c', label: 'lim x→a f(x)' }], 'Infinito não é um limite numérico de integração; a integral é definida por um limite.'),
 
   numeric('imp-02-raiz', 'integrando ilimitado', 'Calcule ∫₀¹1/√x dx.', 2, ['Defina lim a→0⁺∫ₐ¹x⁻¹/²dx.', 'Primitiva: 2√x.', 'lim a→0⁺(2−2√a)=2.']),
-  numeric('imp-02-log', 'integrando ilimitado', 'Calcule ∫₀¹ln(x)dx.', -1, ['Use lim a→0⁺[xln(x)−x]ₐ¹.', 'O limite a ln(a) é 0.', 'Resultado: −1.']),
+  numeric('imp-02-log', 'integrando ilimitado', 'Calcule ∫₀¹ln(x)dx.', -1, ["Como ln(x) não está definida em 0, escreva lim a→0⁺∫ₐ¹ln(x)dx.", "Por partes, u=ln(x), du=dx/x, dv=dx e v=x. A primitiva é x ln(x)−∫1dx=x ln(x)−x.", "No limite 1: 1·ln(1)−1=−1. No limite a: a ln(a)−a.", "Subtraia com parênteses: −1−(a ln(a)−a)=−1−a ln(a)+a.", "Como explicado na lição, a ln(a)→0 e a→0 quando a→0⁺.", "O limite é −1−0+0=−1; portanto a integral converge para −1."]),
   choice('imp-02-x2', 'integrando ilimitado', 'A integral ∫₋₁¹1/x² dx:', 'c', [{ id: 'a', label: 'Vale −2' }, { id: 'b', label: 'Vale 0 por simetria' }, { id: 'c', label: 'Diverge' }], 'É preciso separar em 0; cada lado diverge positivamente.'),
   choice('imp-02-dividir', 'integrando ilimitado', 'Se f é ilimitada em c dentro de [a,b], o procedimento correto é:', 'b', [{ id: 'a', label: 'Ignorar o ponto c' }, { id: 'b', label: 'Separar em ∫ₐᶜ e ∫ᶜᵇ e exigir ambas convergentes' }, { id: 'c', label: 'Somar os limites laterais antes de integrar' }], 'Uma descontinuidade interna cria duas integrais impróprias independentes.'),
 
